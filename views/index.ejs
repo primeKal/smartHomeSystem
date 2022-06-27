@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>
+        Smart Home System
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <!-- <header><%- include('partials/header',{active: "About"}); -%></header>> -->
+    <div class="intial">
+        <p>
+            <h3>List of Users</h3>
+        </p>
+    </div>
+    <div class="new_container">
+        <% for(var i=0; i < users.length; i++) { %>
+            <div class="form" style="margin: 1px; padding:1px;">
+                <h3 class="title">
+                    <%= users[i].name %>
+                </h3>
+                <br>
+                <h2 class="title">
+                    <%= users[i].address %>
+                </h2>
+
+                <!-- <h5 class="title">
+                    <%= users[i].hardware.arduino_name %>
+                </h5>
+                <h5 class="title">
+                    <%= users[i].hardware._id %>
+                </h5> -->
+            </div>
+            <% } %>
+    </div>
+    <div class="contact-info">
+        <button  class="btn"><a href="/admin/create_user_page">Create User</a></button>
+    </div>
+    
+    <!-- <header><%- include('partials/header'); -%></header> -->
+</body>
+
+</html>

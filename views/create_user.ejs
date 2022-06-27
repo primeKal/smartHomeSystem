@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Smart Home System
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <!-- <header>
+        <%- include('partials/header', {active: "About"}); -%>
+    </header> -->
+    <div class="intial">
+        <h1>Smart Home System</h1>
+        <br>
+        <p>
+            <h3>Set your new user here</h3>
+        </p>
+    </div>
+    <div class="container">
+        <div class="form">
+    <form action="/admin/create" method="POST">
+        <h3 class="title">User</h3>
+        <div class="input-container">
+            <input type="text" name="name" class="input" />
+            <label for="">Name</label>
+            <span>Name</span>
+        </div>
+        <div class="input-container">
+            <input type="text" name="bio" class="input" />
+            <label for="">Bio</label>
+            <span>Bio</span>
+        </div>
+        <div class="input-container">
+            <input type="password" name="password" class="input" />
+            <label for="">Password</label>
+            <span>Password</span>
+        </div>
+        <div class="input-container">
+            <input type="text" name="phone" class="input" />
+            <label for="">Phone Number</label>
+            <span>Phone Number</span>
+        </div>
+        <div class="input-container">
+            <input type="text" name="address" class="input" />
+            <label for="">Address</label>
+            <span>Address</span>
+        </div>
+        <div class="input-container">
+            <input type="text" name="social" class="input" />
+            <label for="">Social</label>
+            <span>Social</span>
+        </div>
+        <h3 class="title">Hardware</h3>
+        <div class="input-container">
+            <input type="text" name="hardware_name" class="input" />
+            <label for="">Hardware Name</label>
+            <span>Hardware Name</span>
+        </div>
+        <div class="input-container">
+            <input type="number" name="mac_address" class="input" />
+            <label for="">Mac Address</label>
+            <span>Mac Address</span>
+        </div>
+        <div class="input-container">
+            <input type="number" name="local_ip" class="input" />
+            <label for="">Local Ip</label>
+            <span>Local Ip</span>
+        </div>
+        <div class="input-container">
+            <input type="text" name="description" class="input" />
+            <label for="">Description</label>
+            <span>Description</span>
+        </div>
+        <input type="submit" value="Login" class="btn">
+    </form>
+    </div>
+</div>
+<script>
+
+const inputs = document.querySelectorAll(".input");
+
+function focusFunc() {
+    let parent = this.parentNode;
+    parent.classList.add("focus");
+}
+
+function blurFunc() {
+    let parent = this.parentNode;
+    if (this.value == "") {
+        parent.classList.remove("focus");
+    }
+}
+
+inputs.forEach((input) => {
+    input.addEventListener("focus", focusFunc);
+    input.addEventListener("blur", blurFunc);
+});
+
+
+
+
+
+</script>
+</body>
+
+</html>

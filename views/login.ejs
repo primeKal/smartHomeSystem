@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Smart Home System
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <div class="intial">
+        <h1>Smart Home System</h1>
+    </div>
+    <div class="container">
+        <div class="contact-info">
+            <img src="/logo.png">
+        </div>
+        <div class="form">
+            <form action="/admin/login_admin" method="POST">
+                <h3 class="title">Welcome ....</h3>
+                <div class="input-container">
+                    <input type="text" name="name" class="input" />
+                    <label for="">Name</label>
+                    <span>Name</span>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="pwd" class="input" />
+                    <label for="">Password</label>
+                    <span>Password</span>
+                </div>
+                <input type="submit" value="Login" class="btn">
+            </form>
+        </div>
+    </div>
+    <script>
+
+        const inputs = document.querySelectorAll(".input");
+
+        function focusFunc() {
+            let parent = this.parentNode;
+            parent.classList.add("focus");
+        }
+
+        function blurFunc() {
+            let parent = this.parentNode;
+            if (this.value == "") {
+                parent.classList.remove("focus");
+            }
+        }
+
+        inputs.forEach((input) => {
+            input.addEventListener("focus", focusFunc);
+            input.addEventListener("blur", blurFunc);
+        });
+
+
+
+
+    </script>
+</body>
+
+
+</html>

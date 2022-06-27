@@ -1,0 +1,29 @@
+Back End will Have the following API
+-- data will be parsed using req.body.ttribute or req.param. attribute
+1. /login to get token
+2. /referesh to refresh expired token
+3. /api/user to get user for settings page( to be logged in)
+3. /api/actuator to get list of actuators for certain user
+4. /api/actuator/:id to get single actuator 
+5. /api/actuaator/:id/on to command the actuator on or off to (checks json for fan)
+6. /api/sensor
+7. /api/sensor/:id 
+8. /api/sensor/on/:id
+9. /api/sensor/:id/status 
+
+// to be used or called by arduino 
+10. /api/nfc/unlocked - to command corresponding led, and fan
+11. /api/motion_detected - here backend will use the socket.io to notify flutter app
+12. /api/temp_water - here we will continually save the temp data and also use socket.io to notify flutter
+
+
+
+Arduino Code will the following API
+1. /ping to check on and of
+2. /ip to send back the current id 
+3. /command/led/:id 
+4. /command/fan/:id
+5. /command/motion_presence - to turn them on
+( once turned on the arduino must send a http request for every intrusion and back end will use the socket.io to notify app)
+6./command/nfc - to turn on NFC (arduino must send http request when ever thier is unlocking)
+7. /command/temp_water - here the arduino must send the temp and water level every tmie.
