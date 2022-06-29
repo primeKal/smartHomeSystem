@@ -29,9 +29,6 @@ mongoose.connect('mongodb://localhost/smartHomeSystem', (err) => {
 })
 
 
-
-
-
 app.post('/login',(req, res)=>{
 //authenticate
 

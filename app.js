@@ -2,8 +2,9 @@ require('dotenv').config();
 
 const actuator = require('./Route/actuator');
 const user = require('./Route/user'); 
+const hardware = require('./Route/hardware');
 
-const HardwareManager = require('./Events/automation')
+// const HardwareManager = require('./Events/automation')
 
 const jwt = require('jsonwebtoken');
 const request = require('express/lib/request');
@@ -28,9 +29,15 @@ app.use(express.json())
 
 // app.use('/api/user',atheticate, user);
 app.use('/api/user',user);
-app.use('/api/actuator',actuator)
+app.use('/api/actuator',actuator);
+app.use('/api/hardware',hardware);
 
-function atheticate(req, res, next) {
+// app.use('/api/user',authenticate,user);
+// app.use('/api/actuator',authenticate,actuator);
+// app.use('/api/hardware', authenticate,hardware);
+
+
+function authenticate(req, res, next) {
     const authHeader = req.headers['authorization']
     console.log(req.headers['authorization'])
     const token = authHeader && authHeader.split(' ')[1];
@@ -47,17 +54,27 @@ function atheticate(req, res, next) {
 io.on('connection', (socket) => {
     console.log('a user connected');
   });
-
-var harware = new HardwareManager()
-harware.on('save temprature' , (user_id, value)=>{
+  const harwareManager = require('./hardware_server').common_emmiter;
+  console.log(harwareManager);
+  console.log(require('./hardware_server'));
+// var harwareManager = new HardwareManager()
+harwareManager.on('save temprature' , (user_id, value)=>{
     console.log('caught  save Temprature event from server',user_id);
     //here we will check the user of the connected user and emit with socket io
     // if req.body.user_id == user_id
+    harwareManager.set_temp();
     io.emit('temp value', { temp : value });
 });
-harware.on('nfc unlocked' , (user_id)=>{
+harwareManager.on('nfc unlocked' , (user_id)=>{
+    harwareManager.set_nfc();
     console.log('caught  NFC event from server', user_id);
+    io.emit('nfc unlocked', { });
 });
+harwareManager.on('motion detected', (user_id)=>{
+    harwareManager.set_motion_detected();
+    io.emit('nfc unlocked', { });
+});
+
 
 var port = process.env.PORT  ;
 if (port == undefined) { port = 3000; }

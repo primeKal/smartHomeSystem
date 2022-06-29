@@ -7,12 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "authStart": "nodemon authServer.js",
-    "arduinoStart": "nodemon arduinoServer.js.js"
+    "arduinoStart": "nodemon hardware_server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
@@ -21,6 +22,7 @@
     "express-validator": "^6.14.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.6",
+    "node-report": "^2.2.11",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {

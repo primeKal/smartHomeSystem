@@ -24,7 +24,6 @@ router.post('/', (req, res) =>{
     const password = req.body.password;
     const address = req.body.address;
     const social = req.body.social;
-    const hardware = req.body.hardware
 
     let userObj = {
         'name': name,
@@ -33,7 +32,6 @@ router.post('/', (req, res) =>{
         'password' : password,
         'address' : address,
         'social' : social,
-        'hardware' : hardware
     }
     Userdb.createUser(userObj).then((result) =>{
         res.send(result);
