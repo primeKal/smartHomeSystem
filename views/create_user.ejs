@@ -100,10 +100,13 @@ inputs.forEach((input) => {
 });
 
 
-
-
-
+</script>
+<script src ="socket.io/socket.io.js"></script>
+<script>
+	var socket = io();
+    socket.on('temp value', msg =>{
+        console.log(msg);
+    });
 </script>
 </body>
-
 </html>

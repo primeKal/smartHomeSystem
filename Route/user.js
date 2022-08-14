@@ -24,11 +24,12 @@ router.post('/', (req, res) =>{
     const password = req.body.password;
     const address = req.body.address;
     const social = req.body.social;
+    const description = req.body.description;
 
     let userObj = {
         'name': name,
         'phoneNumber' : phoneNumber,
-        'description' : descritpion,
+        'description' : description,
         'password' : password,
         'address' : address,
         'social' : social,

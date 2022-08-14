@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// import { Types } from "mongoose";
 
 const hardWare = mongoose.Schema({
     arduino_name: { type: String, required: true },
@@ -12,6 +13,7 @@ const hardWare = mongoose.Schema({
         ref: 'User',
         required : true
     },
+    // _id: new mongoose.Schema.Types.ObjectId(),
     // power : String,
     // voltage : String,
     // social : [String]
@@ -39,6 +41,7 @@ async function getHardwareById(id) {
 }
 
 async function createHardware(model) {
+    // Hardwares.init() 
     if (!model.user) { return "No user specified Please specifiy user" ; }
     var arduino_name = model.arduino_name;
     var mac_address = model.number;

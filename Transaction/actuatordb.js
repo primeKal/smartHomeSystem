@@ -7,7 +7,7 @@ const actuatorSchema = mongoose.Schema({
     date : { type : Date, default : Date.now()},
     digitalData : Boolean,
     analogData : [String], 
-    type : [String],
+    type : String,
     user : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User'
@@ -16,16 +16,32 @@ const actuatorSchema = mongoose.Schema({
 
 const Actuators = mongoose.model('Actuator', actuatorSchema);
 
-async function getAll(user_id){
+async function getByUser(user_id){
     var actuators = await Actuators.find({"user" : user_id });
     console.log('db method', actuators)
     return actuators;
 }
+async function getAll(){
+    var actuators = await Actuators.find();
+    console.log(actuators);
+    return actuators;
+}
+
 
 async function getActuator(id){
-    var actuator = await Users.find( { "id" : id}).populate();
+    var actuator = await Actuators.find( { "id" : id}).populate('user');
     console.log(actuator,'thisisitem');
     return actuator;
+}
+async function updateActuatorCommand( id , power){
+    const time = Date.now();
+    const result = Actuators.findByIdAndUpdate(
+        {_id: id },
+        { $set: { analogData: time,
+                    isOn : power}},
+        { new : true}
+     );
+     return result;
 }
 
 async function createActuator (model) {
@@ -46,7 +62,6 @@ async function createActuator (model) {
 
 module.exports.createActuator = createActuator;
 module.exports.getActuator = getActuator;
+module.exports.getByUser = getByUser;
+module.exports.updateActuatorCommand = updateActuatorCommand;
 module.exports.getAll = getAll;
-
-
-

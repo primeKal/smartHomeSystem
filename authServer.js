@@ -10,10 +10,12 @@ const req = require('express/lib/request');
 var bodyParser   = require('body-parser');
 
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 // app.use(express.json());
 // app.use(express.urlencoded({ extended : true }));
@@ -21,7 +23,7 @@ app.use(express.static('Public'));
 app.set("view engine", "ejs");
 
 
-const adminRoute = require('./Admin/admin')
+// const adminRoute = require('./Admin/admin')
 
 mongoose.connect('mongodb://localhost/smartHomeSystem', (err) => {
     console.log(err);
@@ -30,23 +32,36 @@ mongoose.connect('mongodb://localhost/smartHomeSystem', (err) => {
 
 
 app.post('/login',(req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*");
 //authenticate
+    console.log(req);
 
     var refreshTokens = [] ;
     const name = req.body.username;
+    const password = req.body.password;
     console.log("love",name);
     User.getUser(name).then((result)=>{
         console.log(result);
         if (!result[0]) { res.sendStatus(401); return ; }
-        const user = {
-            userId : result[0].name
+        if (result[0].name === name && result[0].password === password ) {
+            const user = {
+                userId : result[0].name
+            }
+            console.log(user);
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn : '1hr'});
+            const refreshToken = jwt.sign(user, process.env.ACCESS_TOKEN_REFRESH)
+            console.log(accessToken,refreshToken,"lovee")
+            res.json({ accessToken : accessToken,
+                        refreshToken : refreshToken,
+                        id :result[0]._id,
+                        username : result[0].name,
+                        password : result[0].password })
+
         }
-        console.log(user);
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn : '1hr'});
-        const refreshToken = jwt.sign(user, process.env.ACCESS_TOKEN_REFRESH)
-        console.log(accessToken,refreshToken,"lovee")
-        res.json({ accessToken : accessToken,
-                    refreshToken : refreshToken })
+        else{
+            res.sendStatus(401); return ;
+        }
+
 
     });
     
@@ -65,12 +80,12 @@ app.post('/token', (req, res)=>{
             });
         });
 })
-app.use('/admin',adminRoute);
+// app.use('/admin',adminRoute);
 
 
 var port = process.env.PORT  ;
 if (port == undefined) { port = 4000; }
 console.log(port);
-app.listen(port, ()=>{
+server.listen(port,'0.0.0.0', ()=>{
     console.log('Listening on port ' + port);
 });

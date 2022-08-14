@@ -23,7 +23,7 @@ router.post('/', (req, res) =>{
     const local_ip = req.body.local_ip;
     const descritpion = req.body.descritpion;
     const isOn = req.body.isOn;
-    const user_id = req.body.userid;
+    const user_id = req.body.user_id;
 
     let hardwareObj = {
         'arduino_name': arduino_name,

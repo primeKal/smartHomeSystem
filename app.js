@@ -3,6 +3,7 @@ require('dotenv').config();
 const actuator = require('./Route/actuator');
 const user = require('./Route/user'); 
 const hardware = require('./Route/hardware');
+const sensor = require('./Route/sensor');
 
 // const HardwareManager = require('./Events/automation')
 
@@ -14,8 +15,9 @@ const app = express();
 
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+// const { Server } = require("socket.io");
+// const io = new Server(server);
+const io = require("socket.io")(server);
 
 
 mongoose.connect('mongodb://localhost/smartHomeSystem', (err) => {
@@ -26,15 +28,18 @@ app.use(express.urlencoded({ extended : true }));
 app.use('/public',express.static('Public'));
 app.use(express.json())
 
-
+app.set("view engine", "ejs");
 // app.use('/api/user',atheticate, user);
 app.use('/api/user',user);
 app.use('/api/actuator',actuator);
 app.use('/api/hardware',hardware);
+app.use('/api/sensor',sensor);
 
 // app.use('/api/user',authenticate,user);
 // app.use('/api/actuator',authenticate,actuator);
 // app.use('/api/hardware', authenticate,hardware);
+
+
 
 
 function authenticate(req, res, next) {
@@ -63,7 +68,7 @@ harwareManager.on('save temprature' , (user_id, value)=>{
     //here we will check the user of the connected user and emit with socket io
     // if req.body.user_id == user_id
     harwareManager.set_temp();
-    io.emit('temp value', { temp : value });
+    io.emit('save temp', { temp : value });
 });
 harwareManager.on('nfc unlocked' , (user_id)=>{
     harwareManager.set_nfc();
@@ -79,6 +84,6 @@ harwareManager.on('motion detected', (user_id)=>{
 var port = process.env.PORT  ;
 if (port == undefined) { port = 3000; }
 console.log(port);
-server.listen(port, ()=>{
-    console.log('Listening on port ' + port);
+server.listen(port,'0.0.0.0', ()=>{
+    console.log('Li,tening on port ' + port);
 });
