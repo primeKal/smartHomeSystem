@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const HardwareDb = require('./Transaction/hardwaredb');
 const ActuatorDb = require('./Transaction/actuatordb')
+const Sensordb = require('./Transaction/sensordb')
 const jwt = require('jsonwebtoken');
 const request = require('express/lib/request');
 const app = express();
@@ -26,6 +27,7 @@ var events = require('events');
 // var eventEmitter = new events.EventEmitter();
 var HardwareManager = require('./Events/automation');
 var eventEmitter = new HardwareManager();
+// eventEmitter.service();
 // Receive Motion Sensor
 
 app.get('/motiondetected', (req, res) => {
@@ -52,44 +54,44 @@ app.get('/unlock', (req, res) => {
     eventEmitter.emit('nfc unlocked', user_id)
     res.sendStatus(200);
 });
-app.get('/command', (req, res) => {
+app.get('/commandAcc', (req, res) => {
     //62f799edb824a8a1abab18f2 sensor id
     //get the user from database
     // user = req.body.user_id;
     //get acctuator and check its type
     const acctuator_id = req.body.acctuator_id
     const hardware_id = req.body.hardware_id;
-    console.log(acctuator_id,hardware_id);
+    console.log(acctuator_id, hardware_id);
     HardwareDb.getHardwareById(hardware_id).then((result) => {
         console.log('we got the hardware>Ip_address');
         const ip = "https://" + result.local_ip;
-        console.log(ip);  
-        ActuatorDb.getByUser(result.user).then( (result2)=>{
-            const power = result2.isOn ? false : true ;
-            ActuatorDb.updateActuatorCommand(acctuator_id, power).then(()=>{
+        console.log(ip);
+        ActuatorDb.getByUser(result.user).then((result2) => {
+            const power = result2.isOn ? false : true;
+            ActuatorDb.updateActuatorCommand(acctuator_id, power).then(() => {
                 console.log('hooray')
                 //here we will send the data with axios
-                if (result2.type === 'fan'){
+                if (result2.type === 'fan') {
                     //post to fan
-                } else if (result2.type === 'led'){
+                } else if (result2.type === 'led') {
                     //post to led
                 }
                 res.sendStatus(200);
             });
 
         });
-            // axios
-            //     .post(ip, {
-            //         id: result._id ,
-            //         type : result.type,
-            //     })
-            //     .then(res => {
-            //         console.log(`statusCode: ${res.status}`);
-            //         console.log(res);
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
+        // axios
+        //     .post(ip, {
+        //         id: result._id ,
+        //         type : result.type,
+        //     })
+        //     .then(res => {
+        //         console.log(`statusCode: ${res.status}`);
+        //         console.log(res);
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
 
     });
 });
@@ -97,7 +99,7 @@ app.get('/command', (req, res) => {
 var port = process.env.PORT;
 if (port == undefined) { port = 7000; }
 console.log(port);
-app.listen(port, '0.0.0.0',() => {
+app.listen(port, '0.0.0.0', () => {
     console.log('Listening on port ' + port);
 });
 module.exports.common_emmiter = eventEmitter;

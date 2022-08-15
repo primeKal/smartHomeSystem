@@ -26,6 +26,11 @@ async function getSensor(id){
     console.log(sensor,'thisisitem');
     return sensor;
 }
+async function getByName(name){
+    var sensor = await Sensors.findOne( { "name" : name}).populate();
+    console.log(sensor,'thisisitem');
+    return sensor;
+}
 async function getAll(){
     var sensors = await Sensors.find();
     console.log(sensors);
@@ -63,5 +68,6 @@ module.exports.getSensor = getSensor;
 module.exports.getByUser = getByUser;
 module.exports.updateSensorCommand = updateSensorCommand;
 module.exports.getAll = getAll;
+module.exports.getByName = getByName;
 
 

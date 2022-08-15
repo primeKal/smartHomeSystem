@@ -21,6 +21,11 @@ async function getByUser(user_id){
     console.log('db method', actuators)
     return actuators;
 }
+async function getByName(name){
+    var actuators = await Actuators.findOne({"name" : name });
+    console.log('db method', actuators)
+    return actuators;
+}
 async function getAll(){
     var actuators = await Actuators.find();
     console.log(actuators);
@@ -35,6 +40,7 @@ async function getActuator(id){
 }
 async function updateActuatorCommand( id , power){
     const time = Date.now();
+    console.log('beggingin', time);
     const result = Actuators.findByIdAndUpdate(
         {_id: id },
         { $set: { analogData: time,
@@ -65,3 +71,4 @@ module.exports.getActuator = getActuator;
 module.exports.getByUser = getByUser;
 module.exports.updateActuatorCommand = updateActuatorCommand;
 module.exports.getAll = getAll;
+module.exports.getByName = getByName;

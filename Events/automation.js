@@ -1,6 +1,10 @@
-const EventEmitter = require("events");
+const events = require("events");
 
-class HardwareManager extends EventEmitter {
+var eventEmitter = new events.EventEmitter();
+// var HardwareManager = require('./Events/automation');
+
+
+class HardwareManager extends events.EventEmitter {
     constructor() {
         super();
     }
@@ -20,6 +24,10 @@ class HardwareManager extends EventEmitter {
         // here we will receive the nfc unlocked and command corresponding 
         console.log('saving to database that motion is detected is here');
     }
+    async service(){
+
 }
+}
+// var eventEmitter = new HardwareManager();
 
 module.exports = HardwareManager;
